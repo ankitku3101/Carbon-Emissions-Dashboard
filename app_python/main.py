@@ -44,7 +44,21 @@ def predict_emissions(emission_factors: EmissionsFactors):
         emissions = loaded_model.predict({emission_factors.gcv, emission_factors.burntamount, emission_factors.plf, emission_factors.production, emission_factors.is_lignite, emission_factors.is_bituminous})
 
     return {"emissions": emissions}
-    
+
+class EmissionDetails(BaseModel):
+    gcv: float
+    burntamount: float
+    plf: float
+    production: float
+    is_lignite: bool
+    is_bituminous: bool
+
+@app.post("/suggest")
+def suggest(emission_details: EmissionDetails):
+    suggestion = ""  # TODO: Implement the suggestion logic
+    return {
+        "suggestion": suggestion
+    }
 
 if __name__ == "__main__":
     listener = ngrok.forward(addr=8080, domain="mole-model-drake.ngrok-free.app", authtoken_from_env = True)
