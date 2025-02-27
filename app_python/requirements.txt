@@ -1,0 +1,7 @@
+fastapi
+ngrok
+openai
+pydantic
+pymongo
+python-dotenv
+uvicorn
