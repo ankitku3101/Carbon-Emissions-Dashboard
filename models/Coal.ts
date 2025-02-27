@@ -2,24 +2,12 @@ import mongoose from "mongoose";
 
 const CoalSchema = new mongoose.Schema(
     {
-        year:{
-            type:Number,
-            min:[0,"Year can not be negative"],
-        },
-        month:{
-            type:Number,
-            min:[0,"Month can not be Negative"],
-            max:[12,"Month can not be greater than 12"]
-        },
-        coaltype:{
-            type:String,
-            enum:['anthracite',"bituminous","lignite"],
-            lowercase:true
-        },
-        gcv:{
-            type:Number,
-            min:[0,"GCV(Gross calorific value) can not be negative"]
-        },
+        coaluses:[
+            {
+                type:mongoose.Schema.Types.ObjectId,
+                ref:'CoalUse'
+            }
+        ],
         plf:{
             type:Number,
             min:[0,"PLF(Plant Load Factor) can not be negative"]
@@ -28,13 +16,9 @@ const CoalSchema = new mongoose.Schema(
             type:Number,
             min:[0,'Electricity Production Can not be negative']
         },
-        burntamount:{
+        totalemission:{
             type:Number,
-            min:[0,"Burnt coal amount can not be negative"]
-        },
-        carbonemission:{
-            type:Number,
-            min:[0,"Carbon emission amount can not be negative"]
+            min:[0,"total emission can not be negative"]
         }
     },
     {
