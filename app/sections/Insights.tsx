@@ -1,5 +1,6 @@
 "use client";
-import React from 'react';
+
+import React, { useState } from "react";
 import {
   LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid, Legend,
   BarChart, Bar, PieChart, Pie, ScatterChart, Scatter, Cell,
@@ -9,39 +10,43 @@ import {
 const coalData = {
   _id: "956875b7-d705-4285-89e4-22042e00ad4b",
   coaluses: [
-    {
-      _id: "39daed4a-a4bc-435b-9098-521796de8cbc",
-      coaltype: "bituminous",
-      gcv: 5845.68,
-      burntamount: 229.14,
-      carbonemission: 52080.81
-    },
-    {
-      _id: "2e31786e-3a31-4853-9871-a8c379588d13",
-      coaltype: "anthracite",
-      gcv: 5114.96,
-      burntamount: 441.19,
-      carbonemission: 104635.49
-    },
-    {
-      _id: "796c27fd-5f70-44d9-8f90-a53a9431f409",
-      coaltype: "lignite",
-      gcv: 3317.74,
-      burntamount: 302.44,
-      carbonemission: 101060.46
-    }
+    { coaltype: "bituminous", gcv: 5845.68, burntamount: 229.14, carbonemission: 52080.81 },
+    { coaltype: "anthracite", gcv: 5114.96, burntamount: 441.19, carbonemission: 104635.49 },
+    { coaltype: "lignite", gcv: 3317.74, burntamount: 302.44, carbonemission: 101060.46 }
   ],
   plf: 63.9,
   production: 2583,
   totalemission: 1968867.75,
 };
 
-const COLORS = ["#FF5733", "#33B5E5", "#FFC300", "#28A745"];
+const COLORS = ["#98FB98", "#F5F5DC", "#00CED1"]; // Mint Green, Off-White, Cyan
 
-function Insights() {
+const Insights = () => {
+  const [selectedFeature, setSelectedFeature] = useState("production");
+
+  // Feature-Based Data
+  const featureData = {
+    production: [
+      { month: "Jan", value: 2000 },
+      { month: "Feb", value: 2500 },
+      { month: "Mar", value: 2700 },
+    ],
+    plf: [
+      { month: "Jan", value: 60 },
+      { month: "Feb", value: 65 },
+      { month: "Mar", value: 70 },
+    ],
+    coalusage: [
+      { coaltype: "Bituminous", value: 500 },
+      { coaltype: "Anthracite", value: 400 },
+      { coaltype: "Lignite", value: 300 },
+    ],
+  };
+
   return (
     <>
-      <section className='px-6 py-12 min-h-screen bg-gray-100'>
+      {/* 🔹 Data Trends & Insights Section */}
+      <section className="px-6 py-12 min-h-screen bg-gray-100">
         <h2 className="text-3xl font-bold text-center text-gray-800 mb-10">📊 Data Trends & Insights</h2>
 
         {/* Summary Section */}
@@ -92,16 +97,7 @@ function Insights() {
           <div className="bg-white p-6 shadow-lg rounded-lg flex flex-col items-center">
             <h3 className="text-lg font-semibold text-center mb-4">⛏️ Coal Type Contribution</h3>
             <PieChart width={300} height={300}>
-              <Pie
-                data={coalData.coaluses}
-                dataKey="carbonemission"
-                nameKey="coaltype"
-                cx="50%"
-                cy="50%"
-                outerRadius={100}
-                fill="#8884d8"
-                label
-              >
+              <Pie data={coalData.coaluses} dataKey="carbonemission" nameKey="coaltype" cx="50%" cy="50%" outerRadius={100} label>
                 {coalData.coaluses.map((entry, index) => (
                   <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                 ))}
@@ -109,38 +105,54 @@ function Insights() {
               <Tooltip />
             </PieChart>
           </div>
+        </div>
+      </section>
 
-          {/* 4️⃣ Scatter Chart - GCV vs CO₂ Emission Efficiency */}
-          <div className="bg-white p-6 shadow-lg rounded-lg">
-            <h3 className="text-lg font-semibold text-center mb-4">⚡ GCV vs CO₂ Efficiency</h3>
-            <ScatterChart width={450} height={300} className="mx-auto">
-              <CartesianGrid />
-              <XAxis type="number" dataKey="gcv" name="GCV" unit=" kcal/kg" />
-              <YAxis type="number" dataKey="carbonemission" name="CO₂ Emission" unit=" tons" />
-              <Tooltip cursor={{ strokeDasharray: "3 3" }} />
-              <Scatter data={coalData.coaluses} fill="#28A745" />
-            </ScatterChart>
-          </div>
+      {/* 🔹 Feature-Based Visualization */}
+      <section className="p-6 bg-white shadow-lg rounded-lg w-full max-w-3xl mx-auto mt-10">
+        <h2 className="text-2xl font-bold text-gray-700 mb-4 text-center">📊 Feature-Based Visualization</h2>
 
-          {/* 5️⃣ Line Chart - PLF vs Production */}
-          <div className="bg-white p-6 shadow-lg rounded-lg">
-            <h3 className="text-lg font-semibold text-center mb-4">🚀 PLF vs Production</h3>
-            <LineChart width={450} height={300} data={[{ plf: coalData.plf, production: coalData.production }]} className="mx-auto">
-              <XAxis dataKey="plf" />
-              <YAxis />
-              <CartesianGrid stroke="#ccc" />
-              <Tooltip />
-              <Legend />
-              <Line type="monotone" dataKey="production" stroke="#33B5E5" strokeWidth={2} />
-            </LineChart>
+        {/* Buttons for Feature Selection */}
+        <div className="flex justify-center gap-3 mb-5">
+          {["production", "plf", "coalusage"].map((feature) => (
+            <button
+              key={feature}
+              onClick={() => setSelectedFeature(feature)}
+              className={`px-4 py-2 rounded-lg transition-all ${
+                selectedFeature === feature ? "bg-gray-300 text-gray-700 shadow-md" : "bg-[#f5f5dc] text-gray-600 hover:bg-gray-200"
+              }`}
+            >
+              {feature.charAt(0).toUpperCase() + feature.slice(1)}
+            </button>
+          ))}
+        </div>
+
+        {/* Chart Display */}
+        <div className="bg-gray-100 p-5 rounded-lg shadow-md flex justify-center">
+          <div className="w-[60%] max-w-md">
+            {selectedFeature === "coalusage" ? (
+              <PieChart width={300} height={300}>
+                <Pie data={featureData[selectedFeature]} dataKey="value" nameKey="coaltype" cx="50%" cy="50%" outerRadius={100} label>
+                  {featureData[selectedFeature].map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                  ))}
+                </Pie>
+                <Tooltip />
+              </PieChart>
+            ) : (
+              <LineChart width={350} height={250} data={featureData[selectedFeature]}>
+                <XAxis dataKey="month" />
+                <YAxis />
+                <Tooltip />
+                <CartesianGrid strokeDasharray="3 3" />
+                <Line type="monotone" dataKey="value" stroke="#007BFF" strokeWidth={2} />
+              </LineChart>
+            )}
           </div>
-        </div>   
-      </section> 
-      <section>
-        Feature based visuality
-        </section>  
+        </div>
+      </section>
     </>
   );
-}
+};
 
 export default Insights;
