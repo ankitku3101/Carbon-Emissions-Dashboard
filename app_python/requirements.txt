@@ -5,3 +5,7 @@ pydantic
 pymongo
 python-dotenv
 uvicorn
+langchain-openai
+langchain_core
+langchain_community
+langserve
