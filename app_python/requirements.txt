@@ -10,4 +10,4 @@ langchain_core
 langchain_community
 langserve
 pandas
-sklearn
+scikit-learn

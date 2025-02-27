@@ -4,6 +4,7 @@ from pydantic import BaseModel
 import uvicorn
 import ngrok
 import pickle
+import numpy as np
 
 # initializing the fastapi instance
 app = FastAPI()
@@ -36,14 +37,32 @@ class EmissionsFactors(BaseModel):
 
 @app.post("/predict")
 def predict_emissions(emission_factors: EmissionsFactors):
+    emissions = 0.0 
     # Load the model
     with open('./app_python/AI_model/lasso_model.pkl', 'rb') as file:
         loaded_model = pickle.load(file)
 
-        # Use the loaded model to make predictions on new data
-        emissions = loaded_model.predict({emission_factors.gcv, emission_factors.burntamount, emission_factors.plf, emission_factors.production, emission_factors.is_lignite, emission_factors.is_bituminous})
+        emission_dict = emission_factors.model_dump()  # For Pydantic v2
+        # emission_dict = emission_factors.dict()  # Use this if using Pydantic v1
+        
+        # Convert boolean values to integers
+        is_lignite = int(emission_dict["is_lignite"])  
+        is_bituminous = int(emission_dict["is_bituminous"])
 
-    return {"emissions": emissions}
+        # Extract values in correct order
+        input_data = np.array([[
+            emission_dict["gcv"],
+            emission_dict["burntamount"],
+            emission_dict["plf"],
+            emission_dict["production"],
+            is_lignite,
+            is_bituminous
+        ]])
+        
+        emissions = loaded_model.predict(input_data)
+
+
+    return {"totalemissions": emissions.tolist()[0]}
 
 class EmissionDetails(BaseModel):
     gcv: float
