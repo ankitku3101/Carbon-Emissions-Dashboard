@@ -1,11 +1,11 @@
 import React from 'react'
 
-function Alerts() {
+function Prediction() {
   return (
     <div className='h-screen flex items-center justify-center'>
-        Alerts
+        Prediction
     </div>
   )
 }
 
-export default Alerts
+export default Prediction
