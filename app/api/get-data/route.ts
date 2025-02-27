@@ -5,9 +5,7 @@ import mongoose from "mongoose";
 import { NextRequest,NextResponse } from "next/server";
 
 export async function POST(request:NextRequest){
-    const session = await mongoose.startSession();
     try {
-        await session.startTransaction();
         await connectMongo();
 
         const requestBody = await request.json();
@@ -17,8 +15,6 @@ export async function POST(request:NextRequest){
         } = requestBody;
 
         if (!start || !end) {
-            await session.abortTransaction();
-            session.endSession();
             return NextResponse.json({error:"start or end value is missing"},{status:404});
         }
 
@@ -48,15 +44,10 @@ export async function POST(request:NextRequest){
                     coalUsage: { $push: '$coalUsageData' }
                 }
             }
-        ]).session(session)
-
-        await session.abortTransaction();
-        session.endSession();
+        ])
 
         return NextResponse.json({data:aggregatedDocument},{status:200});
     } catch (error) {
-        await session.abortTransaction();
-        session.endSession();
         return NextResponse.json({error:error.message||"Something went wrong in server"},{status:500});
     }
 }

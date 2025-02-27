@@ -6,7 +6,7 @@ import os
 
 # MongoDB connection setup
 load_dotenv(".env")
-MONGO_URI = os.getenv("MONGODB_URI") # MongoDB connection URI
+MONGO_URI = os.getenv("MONGO_URI") # MongoDB connection URI
 DB_NAME = "Giet_Hack"  # Database name
 COLLECTION_NAME = "Coal"  # Collection name
 CSV_FILE_PATH = "./dataset/coal_power_plants.csv"  # Path to the CSV file
