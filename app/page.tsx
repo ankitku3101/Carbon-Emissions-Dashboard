@@ -4,6 +4,7 @@ import Statistics from "./sections/Statistics";
 import Hotspots from "./sections/Hotspots";
 import Prediction from "./sections/Prediction";
 import Alerts from "./sections/Alerts";
+import Insights from "./sections/Insights";
 
 export default function Home() {
   return (
@@ -11,6 +12,7 @@ export default function Home() {
       <Landing />
       <Statistics />
       <Hotspots />
+      <Insights/>
       <Prediction />
       <Alerts />
     </>
