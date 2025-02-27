@@ -6,6 +6,8 @@ import ngrok
 import pickle
 import numpy as np
 
+from suggestion import Suggestions
+
 # initializing the fastapi instance
 app = FastAPI()
 
@@ -71,10 +73,12 @@ class EmissionDetails(BaseModel):
     production: float
     is_lignite: bool
     is_bituminous: bool
+    totalemissions: float
 
 @app.post("/suggest")
 def suggest(emission_details: EmissionDetails):
-    suggestion = ""  # TODO: Implement the suggestion logic
+    
+    suggestion = Suggestions().suggest(emission_details.model_dump())
     return {
         "suggestion": suggestion
     }
