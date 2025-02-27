@@ -86,7 +86,7 @@ export async function POST(request:NextRequest){
             session.endSession();
             return NextResponse.json({ error: "Failed to create Coal document" }, { status: 500 })
         }
-        await session.abortTransaction();
+        await session.commitTransaction();
         session.endSession();
       
         return NextResponse.json(

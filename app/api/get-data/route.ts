@@ -50,7 +50,7 @@ export async function POST(request:NextRequest){
             }
         ]).session(session)
 
-        await session.abortTransaction();
+        await session.commitTransaction();
         session.endSession();
 
         return NextResponse.json({data:aggregatedDocument},{status:200});
