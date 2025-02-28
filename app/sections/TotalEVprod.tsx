@@ -57,7 +57,7 @@ export default function TotalEVprod() {
 
   return (
     <div id="coalproduction" className="p-10 m-20 max-w-6xl mx-auto bg-white text-black rounded-lg shadow-lg">
-      <h2 className="text-4xl font-bold mb-8 text-center text-blue-600">Coal Production Tracker</h2>
+      <h2 className="text-4xl font-bold mb-8 text-center text-blue-600">Energy Production Tracker</h2>
 
       {/* ✅ **Date Inputs** */}
       <div className="flex flex-col md:flex-row gap-6 mb-8 justify-center">
@@ -93,7 +93,7 @@ export default function TotalEVprod() {
               <YAxis stroke="#333" />
               <Tooltip cursor={{ fill: "rgba(0,0,0,0.1)" }} />
               <Legend />
-              <Bar dataKey="production" fill="#ff6600" name="Coal Production" barSize={50} />
+              <Bar dataKey="production" fill="#ff6600" name="Energy Production" barSize={50} />
             </BarChart>
           </ResponsiveContainer>
         ) : (
