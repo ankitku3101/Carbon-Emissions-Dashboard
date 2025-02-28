@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import {
   LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid, Legend,
-  BarChart, Bar, PieChart, Pie, ScatterChart, Scatter, Cell,ResponsiveContainer
+  BarChart, Bar, PieChart, Pie, ScatterChart, Scatter, Cell, ResponsiveContainer
 } from "recharts";
 import axios from "axios";
 
@@ -41,11 +41,11 @@ const COLORS = ["#98FB98", "#F5F5DC", "#00CED1"]; // Mint Green, Off-White, Cyan
 
 const Insights = () => {
   const [selectedFeature, setSelectedFeature] = useState("production");
-  const [data,setData] = useState({totalEmission:0,totalProduction:0,averagePLF:0});
+  const [data, setData] = useState({ totalEmission: 0, totalProduction: 0, averagePLF: 0 });
   const [plotdata, setPlotData] = useState<CoalEmissionData[]>([]);
   const [productionData, setProductionData] = useState<ProductionChartData[]>([]);
 
-  useEffect(()=>{
+  useEffect(() => {
     fetch("http://localhost:3000/api/overall-info")
       .then((response) => {
         if (!response.ok) {
@@ -54,32 +54,26 @@ const Insights = () => {
         return response.json();
       })
       .then((data) => {
-        console.log("Got data");
-        const {totalEmission,totalProduction,averagePLF} = data.data[0];
-        console.log(totalEmission,totalProduction,averagePLF);
-
-        setData({totalEmission,totalProduction,averagePLF});
+        const { totalEmission, totalProduction, averagePLF } = data.data[0];
+        setData({ totalEmission, totalProduction, averagePLF });
       })
       .catch((error) => {
-        console.log(error);
-      })
-  },[])
+        console.error("Error fetching overall info:", error);
+      });
+  }, []);
 
-  useEffect(()=>{
+  useEffect(() => {
     const fetchData = async () => {
       try {
-        
-        console.log("Getting Data");
-        const response = await axios.post<{ data: CoalEmissionData[] }>("http://localhost:3000/api/coal-type-emission",{start: "2025-02-27",end: "2025-04-09"});
-        console.log(response?.data.data);
+        const response = await axios.post<{ data: CoalEmissionData[] }>("http://localhost:3000/api/coal-type-emission", { start: "2025-02-27", end: "2025-04-09" });
         setPlotData(response?.data.data);
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error("Error fetching coal type emission data:", error);
       }
     };
 
     fetchData();
-  },[])
+  }, []);
 
   const transformedData = plotdata[0]?.dates.map((date, index) => ({
     date: new Date(date).toLocaleDateString(), // Formatting date
@@ -92,14 +86,9 @@ const Insights = () => {
     const fetchProductionData = async () => {
       try {
         const response = await axios.post<{ data: ProductionData[] }>(
-          "http://localhost:3000/api/total-ev-prod",{start: "2025-02-27",end: "2025-04-09"}
+          "http://localhost:3000/api/total-ev-prod", { start: "2025-02-27", end: "2025-04-09" }
         );
-        const responseData = response.data.data;
-        console.log("Getting for single line graphs")
-        console.log(responseData)
-
-        // Transform data: format date & structure for recharts
-        const formattedData = responseData.map(item => ({
+        const formattedData = response.data.data.map(item => ({
           date: new Date(item.createdAt).toLocaleDateString(),
           production: item.production
         }));
