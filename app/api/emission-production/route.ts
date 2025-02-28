@@ -5,10 +5,10 @@ import { NextRequest,NextResponse } from "next/server";
 export async function POST(request:NextRequest){
     try {
         await connectMongo();
-        const requestbody = await request.json();
-        const {start,end} = requestbody;
+        const requestBody=await request.json();
+        const {start,end} = requestBody;
 
-        const emissionAggregation = await Coal.aggregate([
+        const aggregatedEmissionProductionData = await Coal.aggregate([
             {
                 $match:{
                     createdAt:{
@@ -37,13 +37,15 @@ export async function POST(request:NextRequest){
                     "coalusages.coaltype":1,
                     "coalusages.carbonemission":1,
                     totalemission:1,
+                    production:1,
                     createdAt:1
                 }
             }
         ])
 
-        return NextResponse.json({data:emissionAggregation,message:"Total emission data fetched"},{status:200});
+        return NextResponse.json({data:aggregatedEmissionProductionData,message:"Successful fetched"},{status:200});
+        
     } catch (error) {
-        return NextResponse.json({error:error.message||"Something went wrong"},{status:500});
+        return NextResponse.json({error:error.message||"Something went wrong"},{status:500})
     }
 }

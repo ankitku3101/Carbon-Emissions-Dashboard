@@ -6,7 +6,7 @@ import {
   BarChart, Bar, PieChart, Pie, ScatterChart, Scatter, Cell,
 } from "recharts";
 
-// 🛠 Updated Dummy Data
+// Updated Dummy Data
 const coalData = {
   _id: "956875b7-d705-4285-89e4-22042e00ad4b",
   coaluses: [
@@ -44,12 +44,9 @@ const Insights = () => {
   };
 
   return (
-    <>
-      {/* 🔹 Data Trends & Insights Section */}
-      <section className="px-6 py-12 min-h-screen bg-gray-100">
-        <h2 className="text-3xl font-bold text-center text-gray-800 mb-10">📊 Data Trends & Insights</h2>
-
-        {/* Summary Section */}
+    <div>
+      <section className="p-16 min-h-screen bg-gray-100">
+        <h2 className="text-3xl font-bold text-center text-gray-800 mb-10">Data Trends & Insights</h2>
         <div className="bg-white p-8 shadow-lg rounded-lg mb-10 grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
           <div className="p-4 border rounded-lg shadow-sm">
             <h3 className="text-lg font-semibold text-gray-600">Total Emissions</h3>
@@ -65,12 +62,10 @@ const Insights = () => {
           </div>
         </div>
 
-        {/* Charts Section */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {/* 1️⃣ Line Chart - Carbon Emissions Trend */}
           <div className="bg-white p-6 shadow-lg rounded-lg">
             <h3 className="text-lg font-semibold text-center mb-4">📈 Carbon Emissions Trend</h3>
-            <LineChart width={450} height={300} data={coalData.coaluses} className="mx-auto">
+            <LineChart width={350} height={300} data={coalData.coaluses} className="mx-auto">
               <XAxis dataKey="coaltype" />
               <YAxis />
               <CartesianGrid stroke="#ccc" />
@@ -79,10 +74,9 @@ const Insights = () => {
             </LineChart>
           </div>
 
-          {/* 2️⃣ Bar Chart - Burnt Coal vs CO₂ Emissions */}
           <div className="bg-white p-6 shadow-lg rounded-lg">
             <h3 className="text-lg font-semibold text-center mb-4">🔥 Burnt Coal vs CO₂ Emissions</h3>
-            <BarChart width={450} height={300} data={coalData.coaluses} className="mx-auto">
+            <BarChart width={350} height={300} data={coalData.coaluses} className="mx-auto">
               <XAxis dataKey="coaltype" />
               <YAxis />
               <CartesianGrid strokeDasharray="3 3" />
@@ -93,7 +87,6 @@ const Insights = () => {
             </BarChart>
           </div>
 
-          {/* 3️⃣ Pie Chart - Coal Type Contribution */}
           <div className="bg-white p-6 shadow-lg rounded-lg flex flex-col items-center">
             <h3 className="text-lg font-semibold text-center mb-4">⛏️ Coal Type Contribution</h3>
             <PieChart width={300} height={300}>
@@ -108,11 +101,9 @@ const Insights = () => {
         </div>
       </section>
 
-      {/* 🔹 Feature-Based Visualization */}
       <section className="p-6 bg-white shadow-lg rounded-lg w-full max-w-3xl mx-auto mt-10">
         <h2 className="text-2xl font-bold text-gray-700 mb-4 text-center">📊 Feature-Based Visualization</h2>
 
-        {/* Buttons for Feature Selection */}
         <div className="flex justify-center gap-3 mb-5">
           {["production", "plf", "coalusage"].map((feature) => (
             <button
@@ -127,7 +118,6 @@ const Insights = () => {
           ))}
         </div>
 
-        {/* Chart Display */}
         <div className="bg-gray-100 p-5 rounded-lg shadow-md flex justify-center">
           <div className="w-[60%] max-w-md">
             {selectedFeature === "coalusage" ? (
@@ -151,7 +141,7 @@ const Insights = () => {
           </div>
         </div>
       </section>
-    </>
+    </div>
   );
 };
 

@@ -9,10 +9,19 @@
     "lint": "next lint"
   },
   "dependencies": {
+<<<<<<< HEAD
+=======
+    "@radix-ui/react-slot": "^1.1.2",
+    "@types/axios": "^0.9.36",
+>>>>>>> c989c463eaa566159a488b4e533732683297da37
     "axios": "^1.8.1",
     "chart.js": "^4.4.8",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+<<<<<<< HEAD
+=======
+    "date-fns": "^4.1.0",
+>>>>>>> c989c463eaa566159a488b4e533732683297da37
     "dotenv": "^16.4.7",
     "lucide-react": "^0.476.0",
     "mongodb": "^6.13.1",
@@ -22,6 +31,7 @@
     "react-chartjs-2": "^5.3.0",
     "react-datepicker": "^8.1.0",
     "react-dom": "^19.0.0",
+    "react-hot-toast": "^2.5.2",
     "recharts": "^2.15.1",
     "shadcn": "^2.4.0-canary.9",
     "tailwind-merge": "^3.0.2",
