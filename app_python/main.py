@@ -67,12 +67,11 @@ def predict_emissions(emission_factors: EmissionsFactors):
     return {"totalemissions": emissions.tolist()[0]}
 
 class EmissionDetails(BaseModel):
+    coaltype: str
     gcv: float
     burntamount: float
     plf: float
     production: float
-    is_lignite: bool
-    is_bituminous: bool
     totalemissions: float
 
 @app.post("/suggest")
