@@ -58,26 +58,49 @@ export default function EmissionProductionTracker() {
   };
 
   return (
-    <div className="p-6 max-w-3xl mx-auto bg-gray-900 text-white rounded-lg shadow-md">
-      <h2 className="text-2xl font-bold mb-4">Emission & Production Tracker</h2>
-      <div className="flex flex-col md:flex-row gap-4 mb-4">
-        <Input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} />
-        <Input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} />
-        <Button onClick={fetchEmissionProduction} disabled={loading}>
+    <div className="p-10 m-20 max-w-4xl mx-auto bg-white text-black rounded-lg shadow-lg space-y-8">
+      <h2 className="text-3xl font-bold text-center text-green-600">Emission & Production Tracker</h2>
+
+      {/* ✅ **Input Fields Section (Fixed Spacing)** */}
+      <div className="flex flex-col md:flex-row gap-6 mb-6 justify-center items-center">
+        <Input
+          type="date"
+          value={startDate}
+          onChange={(e) => setStartDate(e.target.value)}
+          className="p-3 rounded-md border border-gray-400 bg-gray-100 text-black shadow-sm w-64"
+        />
+        <Input
+          type="date"
+          value={endDate}
+          onChange={(e) => setEndDate(e.target.value)}
+          className="p-3 rounded-md border border-gray-400 bg-gray-100 text-black shadow-sm w-64"
+        />
+        <Button 
+          onClick={fetchEmissionProduction} 
+          disabled={loading} 
+          className="p-3 bg-green-500 hover:bg-green-400 text-white font-semibold w-44"
+        >
           {loading ? "Loading..." : "Fetch Data"}
         </Button>
       </div>
-      <ResponsiveContainer width="100%" height={300}>
-        <LineChart data={chartData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="date" />
-          <YAxis />
-          <Tooltip />
-          <Legend />
-          <Line type="monotone" dataKey="totalEmission" stroke="#ff7300" name="Total Emission" />
-          <Line type="monotone" dataKey="production" stroke="#387908" name="Production" />
-        </LineChart>
-      </ResponsiveContainer>
+
+      {/* ✅ **Chart Section (Fixed Margin & Spacing)** */}
+      <div className="bg-gray-100 p-8 rounded-lg shadow-md">
+        <h3 className="text-2xl font-semibold mb-6 text-center text-blue-600">Emission & Production Overview</h3>
+        <div className="w-full h-[400px]">
+          <ResponsiveContainer width="100%" height="100%">
+            <LineChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 30 }}>
+              <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.2)" />
+              <XAxis dataKey="date" stroke="#333" angle={-10} textAnchor="end" />
+              <YAxis stroke="#333" />
+              <Tooltip cursor={{ stroke: "#8884d8", strokeWidth: 2 }} />
+              <Legend />
+              <Line type="monotone" dataKey="totalEmission" stroke="#ff6600" name="Total Emission" strokeWidth={3} />
+              <Line type="monotone" dataKey="production" stroke="#387908" name="Production" strokeWidth={3} />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
+      </div>
     </div>
   );
 }
