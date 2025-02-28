@@ -32,7 +32,7 @@ export default function Prediction() {
   };
 
   return (
-    <div className="max-w-lg mx-auto mt-8 p-6 bg-white rounded-xl shadow-lg">
+    <div id="predict" className="max-w-lg mx-auto mt-8 p-6 bg-white rounded-xl shadow-lg">
       <h2 className="text-4xl font-bold text-center mb-6 text-blue-500">Predict Carbon Emissions</h2>
       <form className="space-y-4">
         {Object.keys(userInput).map((key) => (

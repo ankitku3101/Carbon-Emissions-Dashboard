@@ -14,8 +14,8 @@ export default function Home() {
   return (
     <>
       <Landing />
-      <Statistics />
-      <Hotspots />
+      {/*<Statistics /> */}
+      {/*<Hotspots /> */}
       <Insights />
       {/* <Hotspots /> */}
       <Prediction />

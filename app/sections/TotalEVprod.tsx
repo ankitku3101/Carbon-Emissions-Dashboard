@@ -56,7 +56,7 @@ export default function TotalEVprod() {
   }, []);
 
   return (
-    <div className="p-10 m-20 max-w-6xl mx-auto bg-white text-black rounded-lg shadow-lg">
+    <div id="coalproduction" className="p-10 m-20 max-w-6xl mx-auto bg-white text-black rounded-lg shadow-lg">
       <h2 className="text-4xl font-bold mb-8 text-center text-blue-600">Coal Production Tracker</h2>
 
       {/* ✅ **Date Inputs** */}

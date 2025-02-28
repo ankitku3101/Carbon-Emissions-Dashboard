@@ -97,7 +97,7 @@ const Insights = () => {
 
   return (
     <div>
-      <section className="p-16 min-h-screen bg-gray-100">
+      <section id="insight" className="p-16 min-h-screen bg-gray-100">
         <h2 className="text-3xl font-bold text-center text-gray-800 mb-10">Data Trends & Insights</h2>
         <div className="bg-white p-8 shadow-lg rounded-lg mb-10 grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
           <div className="p-4 border rounded-lg shadow-sm">
