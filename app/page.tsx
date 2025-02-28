@@ -17,8 +17,9 @@ export default function Home() {
       <Statistics />
       <Hotspots />
       <Insights />
+      {/* <Hotspots /> */}
       <Prediction />
-      <Alerts />
+      {/* <Alerts /> */}
       <CoalTypeEmission />
       <TotalEVprod />
       <TotalEmissions />
