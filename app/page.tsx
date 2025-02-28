@@ -8,6 +8,7 @@ import Insights from "./sections/Insights";
 import TotalEmissions from "./sections/TotalEmissions";
 import TotalEVprod from "./sections/TotalEVprod";
 import CoalTypeEmission from "./sections/CoalTypeEmission";
+import EmissionProductionTracker from "./sections/EmissionProductionTracker";
 
 export default function Home() {
   return (
@@ -20,6 +21,7 @@ export default function Home() {
       <CoalTypeEmission />
       <TotalEVprod />
       <TotalEmissions />
+      <EmissionProductionTracker />
     </>
   );
 }
