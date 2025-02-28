@@ -18,7 +18,7 @@ function Statistics() {
   useEffect(() => {
     const fetchCoalData = async () => {
       try {
-        const response = await fetch("/api/coal-usage");
+        const response = await fetch("/api/get-data");
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
