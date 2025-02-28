@@ -1,14 +1,15 @@
 "use client";
+
 import { useState } from "react";
 
 export default function Prediction() {
   const [predictedData, setPredictedData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [userInput, setUserInput] = useState({
-    gcv: 0,
-    burntamount: 0,
-    plf: 0,
-    production: 0,
+    gcv: "",
+    burntamount: "",
+    plf: "",
+    production: "",
     is_lignite: true,
     is_bituminous: true,
   });
@@ -31,8 +32,8 @@ export default function Prediction() {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-8 p-6 bg-white rounded-xl shadow-lg">
-      <h2 className="text-2xl font-bold text-center mb-6 text-gray-800">Predict Carbon Emissions</h2>
+    <div className="max-w-lg mx-auto mt-8 p-6 bg-white rounded-xl shadow-lg">
+      <h2 className="text-4xl font-bold text-center mb-6 text-blue-500">Predict Carbon Emissions</h2>
       <form className="space-y-4">
         {Object.keys(userInput).map((key) => (
           <div key={key} className="flex flex-col">
@@ -56,14 +57,15 @@ export default function Prediction() {
             ) : (
               <input
                 type="number"
-                value={userInput[key as keyof typeof userInput] as number}
+                value={userInput[key as keyof typeof userInput] as string}
                 onChange={(e) =>
                   setUserInput({
                     ...userInput,
-                    [key]: Number(e.target.value),
+                    [key]: e.target.value,
                   })
                 }
-                className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 number-input"
+                style={{ MozAppearance: "textfield", WebkitAppearance: "none" }}
               />
             )}
           </div>
@@ -83,6 +85,16 @@ export default function Prediction() {
           <pre className="text-sm text-gray-700">{JSON.stringify(predictedData, null, 2)}</pre>
         </div>
       )}
+      <style jsx>{`
+        .number-input::-webkit-outer-spin-button,
+        .number-input::-webkit-inner-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
+        }
+        .number-input[type=number] {
+          -moz-appearance: textfield;
+        }
+      `}</style>
     </div>
   );
 }
