@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
+import axios from "axios";
 
 interface CoalUsage {
   coaltype: string;
@@ -15,6 +16,20 @@ interface LatestData {
   plf: number;
   production: number;
   totalemission: number;
+  coaltype:string,
+  gcv:number,
+  totalemissions:number,
+  totalBurntAmountOfLatestEntry:number
+}
+
+interface ResponseData{
+  coaltype:string,
+  gcv:number,
+  plf:number,
+  production:number,
+  totalemissions:number,
+  totalBurntAmountOfLatestEntry:number
+      
 }
 
 export default function Suggestion() {
@@ -26,6 +41,7 @@ export default function Suggestion() {
     const fetchDataAndSuggestion = async () => {
       await fetchLatestData();
       if (latestData) {
+        console.log('Executing send segguestion');
         await sendSuggestionRequest();
       }
     };
@@ -33,11 +49,24 @@ export default function Suggestion() {
     fetchDataAndSuggestion();
   }, []);
 
+  useEffect(()=>{
+    const executingSuggestion = async() =>{
+      if (latestData) {
+        console.log('Executing send segguestion');
+        await sendSuggestionRequest();
+      }
+    }
+
+    executingSuggestion();
+  },[latestData])
+
   const fetchLatestData = async () => {
     try {
       setLoading(true);
       const response = await fetch("/api/get-latest"); // Adjust the endpoint as needed
       const data = await response.json();
+      console.log("Suggestion Data");
+      console.log(data);
       if (response.ok) {
         setLatestData(data.latestData[0]);
       } else {
@@ -58,23 +87,30 @@ export default function Suggestion() {
 
     try {
       setLoading(true);
-      const response = await fetch("https://mole-model-drake.ngrok-free.app/suggest", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          coaltype: latestData.coalusage[0]?.coaltype || "",
-          gcv: latestData.coalusage[0]?.gcv || 0,
-          burntamount: latestData.coalusage[0]?.burntamount || 0,
-          plf: latestData.plf || 0,
-          production: latestData.production || 0,
-          totalemissions: latestData.totalemission || 0,
-        }),
-      });
-      const data = await response.json();
-      setSuggestion(data);
-      console.log("Suggestion data received:", data); // Debugging log
+      console.log(latestData);
+      const {
+        coaltype,gcv,totalBurntAmountOfLatestEntry,plf,production,totalemission
+      } = latestData;
+      // const response = await fetch("https://mole-model-drake.ngrok-free.app/suggest", {
+      //   method: "POST",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      //   body: JSON.stringify({
+      //     coaltype: coaltype || "",
+      //     gcv: gcv || 0,
+      //     burntamount: totalBurntAmountOfLatestEntry || 0,
+      //     plf: plf || 0,
+      //     production: production || 0,
+      //     totalemissions: totalemission || 0,
+      //   }),
+      // });
+      
+      // const data = await response.json();
+      // console.log(data);
+      
+      setSuggestion("data.suggestion");
+      
     } catch (error) {
       toast.error("Error sending suggestion request");
       console.error("Error sending suggestion request:", error); // Debugging log
@@ -96,7 +132,7 @@ export default function Suggestion() {
         suggestion && (
           <div className="mt-6 p-4 bg-gray-100 rounded-md border border-gray-300">
             <h3 className="text-lg font-semibold mb-2 text-gray-800">Suggestion</h3>
-            <pre className="text-sm text-gray-700">{JSON.stringify(suggestion, null, 2)}</pre>
+            <pre className="text-sm text-gray-700">{suggestion}</pre>
           </div>
         )
       )}
