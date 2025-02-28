@@ -22,7 +22,7 @@ interface CoalUse {
 
 interface ApiResponse {
   data: {
-    coaluses: CoalUse[];
+    coaluses: CoalUse[];//coal use
     createdAt: string;
   }[];
 }
@@ -46,6 +46,7 @@ function Statistics() {
           }),
         });
 
+        const response = await fetch("/api/get-data");
         if (!response.ok) {
           const errorText = await response.text();
           throw new Error(`HTTP error! Status: ${response.status}, Message: ${errorText}`);
