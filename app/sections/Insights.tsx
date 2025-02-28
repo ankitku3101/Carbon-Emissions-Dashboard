@@ -5,7 +5,6 @@ import {
   LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid, Legend,
   BarChart, Bar, PieChart, Pie, ScatterChart, Scatter, Cell,ResponsiveContainer
 } from "recharts";
-
 import axios from "axios";
 
 // Updated Dummy Data
@@ -135,7 +134,7 @@ const Insights = () => {
 
   return (
     <div>
-      <section id="insight" className="p-16 min-h-screen bg-gray-100">
+      <section className="p-16 min-h-screen bg-gray-100">
         <h2 className="text-3xl font-bold text-center text-gray-800 mb-10">Data Trends & Insights</h2>
         <div className="bg-white p-8 shadow-lg rounded-lg mb-10 grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
           <div className="p-4 border rounded-lg shadow-sm">
@@ -184,11 +183,11 @@ const Insights = () => {
           </div>
 
           <div className="bg-white p-6 shadow-lg rounded-lg flex flex-col items-center">
-            <h3 className="text-lg font-semibold text-center mb-4">⛏️ Coal Type Contribution</h3>
+            <h3 className="text-lg font-semibold text-center mb-4">⛏ Coal Type Contribution</h3>
             <PieChart width={300} height={300}>
               <Pie data={coalData.coaluses} dataKey="carbonemission" nameKey="coaltype" cx="50%" cy="50%" outerRadius={100} label>
                 {coalData.coaluses.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                  <Cell key={cell-${index}} fill={COLORS[index % COLORS.length]} />
                 ))}
               </Pie>
               <Tooltip />
@@ -220,7 +219,7 @@ const Insights = () => {
               <PieChart width={300} height={300}>
                 <Pie data={featureData[selectedFeature]} dataKey="value" nameKey="coaltype" cx="50%" cy="50%" outerRadius={100} label>
                   {featureData[selectedFeature].map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                    <Cell key={cell-${index}} fill={COLORS[index % COLORS.length]} />
                   ))}
                 </Pie>
                 <Tooltip />
