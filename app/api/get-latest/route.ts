@@ -23,14 +23,34 @@ export async function GET(request:NextRequest){
                 }
             },
             {
-                $project:{
-                    _id:1,
-                    "coalusage.coaltype":1,
-                    "coalusage.gcv":1,
-                    "coalusage.burntamount":1,
-                    plf:1,
-                    production:1,
-                    totalemission:1
+                $addFields: {
+                    highestBurntCoal: {
+                        $arrayElemAt: [
+                            {
+                                $sortArray: {
+                                    input: "$coalusage",
+                                    sortBy: { burntamount: -1 }
+                                }
+                            },
+                            0
+                        ]
+                    },
+                    totalBurntAmount: {
+                        $sum: "$coalusage.burntamount"
+                    }
+                }
+            },
+            {
+                $project: {
+                    _id: 0,
+                    coaltype: "$highestBurntCoal.coaltype",
+                    gcv: "$highestBurntCoal.gcv",
+                    burntamount: "$highestBurntCoal.burntamount",
+                    totalBurntAmount: 1,
+                    plf: 1,
+                    production: 1,
+                    totalemission: 1,
+                    totalBurntAmountOfLatestEntry: "$totalBurntAmount" // This is the new field
                 }
             }
         ])

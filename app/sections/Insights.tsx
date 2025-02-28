@@ -183,11 +183,11 @@ const Insights = () => {
           </div>
 
           <div className="bg-white p-6 shadow-lg rounded-lg flex flex-col items-center">
-            <h3 className="text-lg font-semibold text-center mb-4">⛏ Coal Type Contribution</h3>
+            <h3 className="text-lg font-semibold text-center mb-4">⛏️ Coal Type Contribution</h3>
             <PieChart width={300} height={300}>
               <Pie data={coalData.coaluses} dataKey="carbonemission" nameKey="coaltype" cx="50%" cy="50%" outerRadius={100} label>
                 {coalData.coaluses.map((entry, index) => (
-                  <Cell key={cell-${index}} fill={COLORS[index % COLORS.length]} />
+                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                 ))}
               </Pie>
               <Tooltip />
@@ -219,7 +219,7 @@ const Insights = () => {
               <PieChart width={300} height={300}>
                 <Pie data={featureData[selectedFeature]} dataKey="value" nameKey="coaltype" cx="50%" cy="50%" outerRadius={100} label>
                   {featureData[selectedFeature].map((entry, index) => (
-                    <Cell key={cell-${index}} fill={COLORS[index % COLORS.length]} />
+                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                   ))}
                 </Pie>
                 <Tooltip />
