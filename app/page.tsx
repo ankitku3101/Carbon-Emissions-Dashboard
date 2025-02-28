@@ -6,6 +6,7 @@ import Prediction from "./sections/Prediction";
 import Alerts from "./sections/Alerts";
 import Insights from "./sections/Insights";
 import TotalEmissions from "./sections/TotalEmissions";
+import TotalEVprod from "./sections/TotalEVprod";
 
 export default function Home() {
   return (
@@ -16,6 +17,7 @@ export default function Home() {
       <Insights/>
       <Prediction />
       <Alerts />
+      <TotalEVprod />
       <TotalEmissions />
     </>
   );
