@@ -5,6 +5,7 @@ import {
   LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid, Legend,
   BarChart, Bar, PieChart, Pie, ScatterChart, Scatter, Cell,ResponsiveContainer
 } from "recharts";
+
 import axios from "axios";
 
 // Updated Dummy Data
@@ -37,7 +38,8 @@ interface ProductionChartData {
   production: number;
 }
 
-const COLORS = ["#98FB98", "#F5F5DC", "#00CED1"]; // Mint Green, Off-White, Cyan
+const COLORS = ["#98FB98", "#808080", "#00CED1"]; // Mint Green, Gray, Cyan
+
 
 const Insights = () => {
   const [selectedFeature, setSelectedFeature] = useState("production");
