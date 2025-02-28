@@ -7,6 +7,7 @@ import Alerts from "./sections/Alerts";
 import Insights from "./sections/Insights";
 import TotalEmissions from "./sections/TotalEmissions";
 import TotalEVprod from "./sections/TotalEVprod";
+import CoalTypeEmission from "./sections/CoalTypeEmission";
 
 export default function Home() {
   return (
@@ -16,6 +17,7 @@ export default function Home() {
       <Hotspots />
       <Prediction />
       <Alerts />
+      <CoalTypeEmission />
       <TotalEVprod />
       <TotalEmissions />
     </>
