@@ -25,7 +25,7 @@ class Suggestions(BaseModel):
                     1. Possible future challenges in maintaining emission control.
                     2. Three effective strategies to reduce emissions while maintaining energy efficiency.
 
-                    Keep your response concise and data-driven.""")
+                    Keep your response concise, data-driven and under 25 words.""")
             ]
         )
         
