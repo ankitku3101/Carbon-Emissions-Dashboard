@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import {
   LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid, Legend,
-  BarChart, Bar, PieChart, Pie, ScatterChart, Scatter, Cell,
+  BarChart, Bar, PieChart, Pie, ScatterChart, Scatter, Cell,ResponsiveContainer
 } from "recharts";
 import axios from "axios";
 
@@ -20,11 +20,19 @@ const coalData = {
   totalemission: 1968867.75,
 };
 
+interface CoalEmissionData {
+  _id: string;
+  dates: string[];
+  emissions: number[];
+}
+
 const COLORS = ["#98FB98", "#F5F5DC", "#00CED1"]; // Mint Green, Off-White, Cyan
 
 const Insights = () => {
   const [selectedFeature, setSelectedFeature] = useState("production");
   const [data,setData] = useState({totalEmission:0,totalProduction:0,averagePLF:0});
+  const [plotdata, setPlotData] = useState<CoalEmissionData[]>([]);
+
   useEffect(()=>{
     fetch("http://localhost:3000/api/overall-info")
       .then((response) => {
@@ -44,6 +52,29 @@ const Insights = () => {
         console.log(error);
       })
   },[])
+
+  useEffect(()=>{
+    const fetchData = async () => {
+      try {
+        
+        console.log("Getting Data");
+        const response = await axios.post<{ data: CoalEmissionData[] }>("http://localhost:3000/api/coal-type-emission",{start: "2025-02-27",end: "2025-04-09"});
+        console.log(response?.data.data);
+        setPlotData(response?.data.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  },[])
+
+  const transformedData = plotdata[0]?.dates.map((date, index) => ({
+    date: new Date(date).toLocaleDateString(), // Formatting date
+    anthracite: plotdata.find((item) => item._id === "anthracite")?.emissions[index],
+    bituminous: plotdata.find((item) => item._id === "bituminous")?.emissions[index],
+    lignite: plotdata.find((item) => item._id === "lignite")?.emissions[index],
+  }));
 
   // Feature-Based Data
   const featureData = {
@@ -86,13 +117,19 @@ const Insights = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           <div className="bg-white p-6 shadow-lg rounded-lg">
             <h3 className="text-lg font-semibold text-center mb-4">📈 Carbon Emissions Trend</h3>
-            <LineChart width={350} height={300} data={coalData.coaluses} className="mx-auto">
-              <XAxis dataKey="coaltype" />
-              <YAxis />
-              <CartesianGrid stroke="#ccc" />
-              <Tooltip />
-              <Line type="monotone" dataKey="carbonemission" stroke="#FF5733" strokeWidth={2} />
-            </LineChart>
+            <ResponsiveContainer width="100%" height={400}>
+              <LineChart data={transformedData}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="date" />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+
+                <Line type="monotone" dataKey="anthracite" stroke="#ff7300" strokeWidth={2} dot={false} />
+                <Line type="monotone" dataKey="bituminous" stroke="#8884d8" strokeWidth={2} dot={false} />
+                <Line type="monotone" dataKey="lignite" stroke="#82ca9d" strokeWidth={2} dot={false} />
+              </LineChart>
+            </ResponsiveContainer>
           </div>
 
           <div className="bg-white p-6 shadow-lg rounded-lg">
