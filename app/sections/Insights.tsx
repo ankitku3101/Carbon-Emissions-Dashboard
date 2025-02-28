@@ -38,8 +38,7 @@ interface ProductionChartData {
   production: number;
 }
 
-const COLORS = ["#98FB98", "#808080", "#00CED1"]; // Mint Green, Gray, Cyan
-
+const COLORS = ["#98FB98", "#F5F5DC", "#00CED1"]; // Mint Green, Off-White, Cyan
 
 const Insights = () => {
   const [selectedFeature, setSelectedFeature] = useState("production");
