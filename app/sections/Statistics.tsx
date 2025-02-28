@@ -22,7 +22,7 @@ interface CoalUse {
 
 interface ApiResponse {
   data: {
-    coaluses: CoalUse[];
+    coaluses: CoalUse[];//coal use
     createdAt: string;
   }[];
 }
@@ -35,21 +35,7 @@ function Statistics() {
   useEffect(() => {
     const fetchCoalData = async () => {
       try {
-<<<<<<< HEAD
         const response = await fetch("/api/get-data");
-=======
-        const response = await fetch("http://localhost:3000/api/get-data", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            start: "2025-02-27",
-            end: "2026-04-09",
-          }),
-        });
-
->>>>>>> c989c463eaa566159a488b4e533732683297da37
         if (!response.ok) {
           const errorText = await response.text();
           throw new Error(`HTTP error! Status: ${response.status}, Message: ${errorText}`);
