@@ -1,10 +1,11 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid, Legend,
   BarChart, Bar, PieChart, Pie, ScatterChart, Scatter, Cell,
 } from "recharts";
+import axios from "axios";
 
 // Updated Dummy Data
 const coalData = {
@@ -23,6 +24,26 @@ const COLORS = ["#98FB98", "#F5F5DC", "#00CED1"]; // Mint Green, Off-White, Cyan
 
 const Insights = () => {
   const [selectedFeature, setSelectedFeature] = useState("production");
+  const [data,setData] = useState({totalEmission:0,totalProduction:0,averagePLF:0});
+  useEffect(()=>{
+    fetch("http://localhost:3000/api/overall-info")
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log("Got data");
+        const {totalEmission,totalProduction,averagePLF} = data.data[0];
+        console.log(totalEmission,totalProduction,averagePLF);
+
+        setData({totalEmission,totalProduction,averagePLF});
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+  },[])
 
   // Feature-Based Data
   const featureData = {
@@ -50,15 +71,15 @@ const Insights = () => {
         <div className="bg-white p-8 shadow-lg rounded-lg mb-10 grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
           <div className="p-4 border rounded-lg shadow-sm">
             <h3 className="text-lg font-semibold text-gray-600">Total Emissions</h3>
-            <p className="text-2xl font-bold text-red-500">{coalData.totalemission} tons</p>
+            <p className="text-2xl font-bold text-red-500">{data.totalEmission} tons</p>
           </div>
           <div className="p-4 border rounded-lg shadow-sm">
             <h3 className="text-lg font-semibold text-gray-600">Plant Load Factor (PLF)</h3>
-            <p className="text-2xl font-bold text-blue-500">{coalData.plf}%</p>
+            <p className="text-2xl font-bold text-blue-500">{data.averagePLF}%</p>
           </div>
           <div className="p-4 border rounded-lg shadow-sm">
             <h3 className="text-lg font-semibold text-gray-600">Total Production</h3>
-            <p className="text-2xl font-bold text-green-500">{coalData.production} MWh</p>
+            <p className="text-2xl font-bold text-green-500">{data.totalProduction} MWh</p>
           </div>
         </div>
 
