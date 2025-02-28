@@ -31,9 +31,7 @@ export default function CoalTypeEmission() {
     try {
       const response = await fetch("/api/coal-type-emission", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ start: startDate, end: endDate }),
       });
       const data = await response.json();
@@ -57,32 +55,44 @@ export default function CoalTypeEmission() {
   }));
 
   return (
-    <div className="p-6 max-w-3xl mx-auto bg-white text-black rounded-lg shadow-md">
-      <h2 className="text-2xl font-bold mb-4">Coal Type Emissions</h2>
-      <div className="flex flex-col md:flex-row gap-4 mb-4">
+    <div className="p-10 m-20 max-w-4xl mx-auto bg-white text-black rounded-lg shadow-lg space-y-8">
+      {/* ✅ **Heading Section (Stylish UI)** */}
+      <h2 className="text-3xl font-bold text-center text-green-600">Coal Type Emissions</h2>
+
+      {/* ✅ **Input Fields Section (Better Spacing & Alignment)** */}
+      <div className="flex flex-col md:flex-row gap-6 mb-6 justify-center items-center">
         <Input
           type="date"
           value={startDate}
           onChange={(e) => setStartDate(e.target.value)}
+          className="p-3 rounded-md border border-gray-400 bg-gray-100 text-black shadow-sm w-64"
         />
         <Input
           type="date"
           value={endDate}
           onChange={(e) => setEndDate(e.target.value)}
+          className="p-3 rounded-md border border-gray-400 bg-gray-100 text-black shadow-sm w-64"
         />
-        <Button onClick={fetchEmissions} disabled={loading}>
+        <Button 
+          onClick={fetchEmissions} 
+          disabled={loading} 
+          className="p-3 bg-blue-500 hover:bg-blue-400 text-white font-semibold w-44"
+        >
           {loading ? "Loading..." : "Fetch Data"}
         </Button>
       </div>
-      <div className="overflow-x-auto">
+
+      {/* ✅ **Chart Section (Better Design & Spacing)** */}
+      <div className="bg-gray-100 p-8 rounded-lg shadow-md">
+        <h3 className="text-2xl font-semibold mb-6 text-center text-blue-600">Average Emissions by Coal Type</h3>
+
         {aggregatedData.length > 0 ? (
-          <div className="mb-8">
-            <h3 className="text-xl font-semibold mb-2">Average Emissions by Coal Type</h3>
-            <ResponsiveContainer width="100%" height={350}>
-              <BarChart data={aggregatedData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#ddd" />
-                <XAxis dataKey="type" label={{ value: 'Coal Type', position: 'insideBottomRight', offset: 0 }} />
-                <YAxis label={{ value: 'Average Emissions (kg)', angle: -90, position: 'insideLeft' }} />
+          <div className="w-full h-[400px]">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={aggregatedData} margin={{ top: 20, right: 30, left: 20, bottom: 30 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.2)" />
+                <XAxis dataKey="type" stroke="#333" />
+                <YAxis stroke="#333" />
                 <Tooltip formatter={(value) => [`Average Emission: ${value} kg`]} />
                 <Legend verticalAlign="top" height={36} />
                 <Bar dataKey="averageEmission" fill="#8884d8" barSize={60}>
@@ -92,7 +102,7 @@ export default function CoalTypeEmission() {
             </ResponsiveContainer>
           </div>
         ) : (
-          <p className="text-center">No data available</p>
+          <p className="text-center text-gray-500 text-lg">No data available for the selected date range.</p>
         )}
       </div>
     </div>
