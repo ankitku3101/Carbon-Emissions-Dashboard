@@ -72,7 +72,7 @@ export default function TotalEmissions() {
   }, []);
 
   return (
-    <div className="p-10 m-20 max-w-6xl mx-auto bg-white text-black rounded-lg shadow-lg">
+    <div id="totalemissions" className="p-10 m-20 max-w-6xl mx-auto bg-white text-black rounded-lg shadow-lg">
       <h2 className="text-4xl font-bold mb-8 text-center text-green-600">Total Emissions Tracker</h2>
 
       {/* ✅ **Input Fields** */}

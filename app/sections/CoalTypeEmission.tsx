@@ -55,7 +55,7 @@ export default function CoalTypeEmission() {
   }));
 
   return (
-    <div className="p-10 m-20 max-w-4xl mx-auto bg-white text-black rounded-lg shadow-lg space-y-8">
+    <div id="coaltype"className="p-10 m-20 max-w-4xl mx-auto bg-white text-black rounded-lg shadow-lg space-y-8">
       {/* ✅ **Heading Section (Stylish UI)** */}
       <h2 className="text-3xl font-bold text-center text-green-600">Coal Type Emissions</h2>
 
