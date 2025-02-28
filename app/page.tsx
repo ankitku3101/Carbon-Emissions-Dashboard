@@ -14,7 +14,6 @@ export default function Home() {
       <Landing />
       <Statistics />
       <Hotspots />
-      <Insights/>
       <Prediction />
       <Alerts />
       <TotalEVprod />
