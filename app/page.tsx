@@ -15,9 +15,9 @@ export default function Home() {
     <>
       <Landing />
       <Statistics />
-      <Hotspots />
+      {/* <Hotspots /> */}
       <Prediction />
-      <Alerts />
+      {/* <Alerts /> */}
       <CoalTypeEmission />
       <TotalEVprod />
       <TotalEmissions />

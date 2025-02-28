@@ -1,9 +1,10 @@
 'use client'
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LabelList } from 'recharts';
 
 interface EmissionData {
   _id: string; // Coal type
@@ -12,10 +13,14 @@ interface EmissionData {
 }
 
 export default function CoalTypeEmission() {
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
+  const [startDate, setStartDate] = useState("2025-02-27");
+  const [endDate, setEndDate] = useState("2026-04-09");
   const [emissionsData, setEmissionsData] = useState<EmissionData[]>([]);
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    fetchEmissions();
+  }, []);
 
   const fetchEmissions = async () => {
     if (!startDate || !endDate) {
@@ -45,8 +50,14 @@ export default function CoalTypeEmission() {
     }
   };
 
+  // Aggregate data for the bar chart
+  const aggregatedData = emissionsData.map(item => ({
+    type: item._id,
+    averageEmission: item.emissions.reduce((a, b) => a + b, 0) / item.emissions.length,
+  }));
+
   return (
-    <div className="p-6 max-w-3xl mx-auto bg-gray-900 text-white rounded-lg shadow-md">
+    <div className="p-6 max-w-3xl mx-auto bg-white text-black rounded-lg shadow-md">
       <h2 className="text-2xl font-bold mb-4">Coal Type Emissions</h2>
       <div className="flex flex-col md:flex-row gap-4 mb-4">
         <Input
@@ -64,32 +75,25 @@ export default function CoalTypeEmission() {
         </Button>
       </div>
       <div className="overflow-x-auto">
-        <table className="w-full border-collapse border border-gray-700">
-          <thead>
-            <tr className="bg-gray-800">
-              <th className="border border-gray-700 px-4 py-2">Coal Type</th>
-              <th className="border border-gray-700 px-4 py-2">Dates</th>
-              <th className="border border-gray-700 px-4 py-2">Emissions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {emissionsData.length > 0 ? (
-              emissionsData.map((item, index) => (
-                <tr key={index} className="border border-gray-700">
-                  <td className="border border-gray-700 px-4 py-2">{item._id}</td>
-                  <td className="border border-gray-700 px-4 py-2">{item.dates.join(", ")}</td>
-                  <td className="border border-gray-700 px-4 py-2">{item.emissions.join(", ")}</td>
-                </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan={3} className="text-center border border-gray-700 px-4 py-2">
-                  No data available
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
+        {aggregatedData.length > 0 ? (
+          <div className="mb-8">
+            <h3 className="text-xl font-semibold mb-2">Average Emissions by Coal Type</h3>
+            <ResponsiveContainer width="100%" height={350}>
+              <BarChart data={aggregatedData}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#ddd" />
+                <XAxis dataKey="type" label={{ value: 'Coal Type', position: 'insideBottomRight', offset: 0 }} />
+                <YAxis label={{ value: 'Average Emissions (kg)', angle: -90, position: 'insideLeft' }} />
+                <Tooltip formatter={(value) => [`Average Emission: ${value} kg`]} />
+                <Legend verticalAlign="top" height={36} />
+                <Bar dataKey="averageEmission" fill="#8884d8" barSize={60}>
+                  <LabelList dataKey="averageEmission" position="top" />
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        ) : (
+          <p className="text-center">No data available</p>
+        )}
       </div>
     </div>
   );
