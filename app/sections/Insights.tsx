@@ -26,12 +26,24 @@ interface CoalEmissionData {
   emissions: number[];
 }
 
+interface ProductionData {
+  _id: string;
+  production: number;
+  createdAt: string;
+}
+
+interface ProductionChartData {
+  date: string;
+  production: number;
+}
+
 const COLORS = ["#98FB98", "#F5F5DC", "#00CED1"]; // Mint Green, Off-White, Cyan
 
 const Insights = () => {
   const [selectedFeature, setSelectedFeature] = useState("production");
   const [data,setData] = useState({totalEmission:0,totalProduction:0,averagePLF:0});
   const [plotdata, setPlotData] = useState<CoalEmissionData[]>([]);
+  const [productionData, setProductionData] = useState<ProductionChartData[]>([]);
 
   useEffect(()=>{
     fetch("http://localhost:3000/api/overall-info")
@@ -75,6 +87,31 @@ const Insights = () => {
     bituminous: plotdata.find((item) => item._id === "bituminous")?.emissions[index],
     lignite: plotdata.find((item) => item._id === "lignite")?.emissions[index],
   }));
+
+  useEffect(() => {
+    const fetchProductionData = async () => {
+      try {
+        const response = await axios.post<{ data: ProductionData[] }>(
+          "http://localhost:3000/api/total-ev-prod",{start: "2025-02-27",end: "2025-04-09"}
+        );
+        const responseData = response.data.data;
+        console.log("Getting for single line graphs")
+        console.log(responseData)
+
+        // Transform data: format date & structure for recharts
+        const formattedData = responseData.map(item => ({
+          date: new Date(item.createdAt).toLocaleDateString(),
+          production: item.production
+        }));
+
+        setProductionData(formattedData);
+      } catch (error) {
+        console.error("Error fetching production data:", error);
+      }
+    };
+
+    fetchProductionData();
+  }, []);
 
   // Feature-Based Data
   const featureData = {
@@ -188,13 +225,17 @@ const Insights = () => {
                 <Tooltip />
               </PieChart>
             ) : (
-              <LineChart width={350} height={250} data={featureData[selectedFeature]}>
-                <XAxis dataKey="month" />
-                <YAxis />
-                <Tooltip />
-                <CartesianGrid strokeDasharray="3 3" />
-                <Line type="monotone" dataKey="value" stroke="#007BFF" strokeWidth={2} />
-              </LineChart>
+              <ResponsiveContainer width="100%" height={400}>
+                <LineChart data={productionData}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="date" />
+                  <YAxis />
+                  <Tooltip />
+                  <Legend />
+
+                  <Line type="monotone" dataKey="production" stroke="#007BFF" strokeWidth={2} />
+                </LineChart>
+              </ResponsiveContainer>
             )}
           </div>
         </div>
