@@ -36,7 +36,8 @@ export async function POST(request:NextRequest){
                     "coalusages._id":1,
                     "coalusages.coaltype":1,
                     "coalusages.carbonemission":1,
-                    totalemission:1
+                    totalemission:1,
+                    createdAt:1
                 }
             }
         ])
