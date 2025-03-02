@@ -10,16 +10,22 @@ const Navbar = () => {
             <Link href={'#'} className='hover:text-gray-700'>Home</Link>
           </li>
           <li>
-            <Link href={'#'} className='hover:text-gray-700'>Statistics</Link>
+            <Link href={'#insight'} className='hover:text-gray-700'>Insights</Link>
           </li>
           <li>
-            <Link href={'#'} className='hover:text-gray-700'>Hotspots</Link>
+            <Link href={'#predict'} className='hover:text-gray-700'>Prediction</Link>
           </li>
           <li>
-            <Link href={'#'} className='hover:text-gray-700'>Prediction</Link>
+            <Link href={'#coaltype'} className='hover:text-gray-700'>Coal Type</Link>
           </li>
           <li>
-            <Link href={'#'} className='hover:text-gray-700'>Alerts</Link>
+            <Link href={'#energyproduction'} className='hover:text-gray-700'>Energy Production</Link>
+          </li>
+          <li>
+            <Link href={'#totalemissions'} className='hover:text-gray-700'>Total Emissions</Link>
+          </li>
+          <li>
+            <Link href={'#tracker'} className='hover:text-gray-700'>Tracker</Link>
           </li>
         </ul>
       </div>
